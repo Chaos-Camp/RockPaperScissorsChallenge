@@ -1,17 +1,29 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from enum import IntEnum
+from enum import Enum
 import random
 
 app = FastAPI()
 
-
-class Weapon(IntEnum):
+class Weapon(Enum):
     """Enumeration representing the available weapons."""
-
     ROCK = 1
     PAPER = 2
     SCISSOR = 3
+
+    def __new__(cls, value):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        return obj
+
+    @classmethod
+    def _missing_(cls, value):
+        if isinstance(value, str):
+            for member in cls:
+                if member.name == value.upper():
+                    return member
+        return super()._missing_(value)
 
 
 class Outcome(IntEnum):
