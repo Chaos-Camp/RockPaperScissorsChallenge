@@ -1,10 +1,39 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
 from enum import IntEnum
 from enum import Enum
 import random
 
 app = FastAPI()
+
+
+class HealthCheck(BaseModel):
+    """Response model to validate and return when performing a health check added by your favorite @TechCoachRalph"""
+    status: str = "OK"
+
+
+@app.get(
+    "/health",
+    tags=["healthcheck"],
+    summary="Perform a health check",
+    response_description="Return HTTP Status Code 200 (OK)",
+    status_code=status.HTTP_200_OK,
+    response_model=HealthCheck,
+)
+def get_health() -> HealthCheck:
+    """
+       ## Perform a Health Check
+       Endpoint to perform a healthcheck on. This endpoint can primarily be used Docker
+       to ensure a robust container orchestration and management is in place. Other
+       services which rely on proper functioning of the API service will not deploy if this
+       endpoint returns any other HTTP status code except 200 (OK).
+       Returns:
+           HealthCheck: Returns a JSON response with the health status
+
+       Brought to you by your favorite Tech Coach Ralph
+       """
+    return HealthCheck(status="OK")
+
 
 class Weapon(Enum):
     """Enumeration representing the available weapons."""
@@ -76,6 +105,9 @@ async def play(req: PlayRequest) -> PlayResponse:
         "computer_weapon": computer_choice.name,
         "winner": winner.name
     }
+
+
+
 
 
 if __name__ == "__main__":

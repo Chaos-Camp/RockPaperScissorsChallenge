@@ -12,6 +12,7 @@ You've been provided with a Rock-Paper-Scissors API. Your task is to write a ser
             "choice": "ROCK" | "PAPER" | "SCISSOR"
         }
         ```
+    - Response status code: 200
     - Response payload:
         ```json
         {
@@ -20,6 +21,15 @@ You've been provided with a Rock-Paper-Scissors API. Your task is to write a ser
             "winner": "YOU_WIN" | "DRAW" | "COMPUTER_WINS"
         }
         ```
+
+- `GET /health`:
+  - Response status code: 200 
+  - Response payload:
+    ```json
+    {
+    "status": "OK"
+    }
+    ``` 
 
 **Test Requirements**:
 
